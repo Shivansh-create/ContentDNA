@@ -1,8 +1,13 @@
+
 # ContentDNA
 
 internal tool for RAG over youtube videos. 
 
 built this to quickly ingest yt transcripts and chat with them using local embeddings so we dont burn through API credits. using groq for the llm part since it's fast.
+
+## creators
+- [Shivansh Chola](https://github.com/Shivansh-create)
+- [Dharshini Kamaraj](https://github.com/dharshinikraj)
 
 ### tech stack
 - next.js (app router)
