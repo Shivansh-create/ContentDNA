@@ -67,11 +67,14 @@ export async function fetchVideoMetadata(url: string): Promise<VideoMetadata> {
     throw new Error('Unsupported or invalid video URL.');
   }
 
-  const binaryName = process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp';
-  const binaryPath = path.resolve(process.cwd(), binaryName);
-
-  if (!fs.existsSync(binaryPath)) {
-    throw new Error(`yt-dlp binary not found at ${binaryPath}. Ensure it has been downloaded.`);
+  let binaryPath = '';
+  if (process.platform === 'win32') {
+    binaryPath = path.resolve(process.cwd(), 'yt-dlp.exe');
+    if (!fs.existsSync(binaryPath)) {
+      throw new Error(`yt-dlp.exe binary not found at ${binaryPath}. Ensure it has been downloaded.`);
+    }
+  } else {
+    binaryPath = 'yt-dlp';
   }
 
   const logs: ExtractionLogEntry[] = [];
@@ -310,8 +313,12 @@ export async function fetchVideoMetadata(url: string): Promise<VideoMetadata> {
 
 // Download Audio stream directly using yt-dlp (M4A format 140 is audio-only, extremely fast and light)
 export async function downloadAudio(url: string, externalId: string): Promise<string> {
-  const binaryName = process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp';
-  const binaryPath = path.resolve(process.cwd(), binaryName);
+  let binaryPath = '';
+  if (process.platform === 'win32') {
+    binaryPath = path.resolve(process.cwd(), 'yt-dlp.exe');
+  } else {
+    binaryPath = 'yt-dlp';
+  }
   
   const scratchDir = path.resolve(process.cwd(), 'scratch');
   if (!fs.existsSync(scratchDir)) {
